@@ -1,20 +1,19 @@
-docker-oracle-xe-11g
+xe-11g-release-2
 ============================
-[![Docker Repository on Quay](https://quay.io/repository/maksymbilenko/oracle-xe-11g/status "Docker Repository on Quay")](https://quay.io/repository/maksymbilenko/oracle-xe-11g)
 
 Oracle Express Edition 11g Release 2 on Ubuntu 14.04.1 LTS
 
 ### Installation
 
-    docker pull quay.io/maksymbilenko/oracle-xe-11g
+    docker pull parana/xe-11g-release-2
 
 Run with 8080 and 1521 ports opened:
 
-    docker run -d -p 8080:8080 -p 1521:1521 quay.io/maksymbilenko/oracle-xe-11g
+    docker run -d -p 8080:8080 -p 1521:1521 parana/xe-11g-release-2
 
 Run with data on host and reuse it:
 
-    docker run -d -p 8080:8080 -p 1521:1521 -v /my/oracle/data:/u01/app/oracle quay.io/maksymbilenko/oracle-xe-11g
+    docker run -d -p 8080:8080 -p 1521:1521 -v $HOME/oraxedata/:/u01/app/oracle parana/xe-11g-release-2
 
 Run with customization of processes, sessions, transactions
 This customization is needed on the database initialization stage. If you are using mounted folder with DB files this is not used:
@@ -23,15 +22,15 @@ This customization is needed on the database initialization stage. If you are us
     #processes=x
     #sessions=x*1.1+5
     #transactions=sessions*1.1
-    docker run -d -p 8080:8080 -p 1521:1521 -v /my/oracle/data:/u01/app/oracle\
+    docker run -d -p 8080:8080 -p 1521:1521 -v $HOME/oraxedata/:/u01/app/oracle \
     -e processes=1000 \
     -e sessions=1105 \
     -e transactions=1215 \
-    quay.io/maksymbilenko/oracle-xe-11g
+    parana/xe-11g-release-2
 
 Run with custom sys password:
 
-    docker run -d -p 8080:8080 -p 1521:1521 -e DEFAULT_SYS_PASS=sYs-p@ssw0rd quay.io/maksymbilenko/oracle-xe-11g
+    docker run -d -p 8080:8080 -p 1521:1521 -e DEFAULT_SYS_PASS=my-sYs-p@ssw0rd parana/xe-11g-release-2
 
 Connect database with following setting:
 
@@ -72,7 +71,7 @@ Auto import of sh sql and dmp files
 * Fixed issue with reusable mounted data
 * Fixed issue with ownership of mounted data folders
 * Fixed issue with Gracefull shutdown of service
-* Reduse size of image from 3.8G to 825Mb
+* Reduce size of image from 3.8G to 825Mb
 * Database initialization moved out of the image build phase. Now database initializes at the containeer startup with no database files mounted
 * Added database media reuse support outside of container
 * Added graceful shutdown on containeer stop
